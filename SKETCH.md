@@ -62,6 +62,5 @@ The key points are:
 2. `plugins.composite` and `plugins.singleton` are used to define extension points, which are registered with the container.
 3. The setup function for each plugin receives a local config object and returns the plugin implementation, which is then registered with the container.
 4. No need to manually specify plugin names - they are derived from the extension point names.
-5. The container is passed to the setup function, allowing plugins to depend on each other's extension points.
 
 This approach provides a more concise and expressive way to define and register Phantomaton plugins, while still maintaining the flexibility and extensibility of the original plugin system.
