@@ -9,75 +9,56 @@
 
 ## Proposed API
 
-```javascript
-// phantomaton-plugins.js
-import { createContainer } from 'phantomaton-core';
-
-const plugins = {
-  create: (config, setup) => {
-    const container = createContainer();
-    setup(container);
-    return container.getPlugin();
-  },
-
-  composite: (name) => ({
-    [name]: (config, setup) => container => {
-      container.register({
-        [name]: (config) => setup(config)
-      });
-    }
-  }),
-
-  singleton: (name) => ({
-    [name]: (config, setup) => container => {
-      container.register({
-        [name]: Object.assign(setup(config), { instance: Symbol() })
-      });
-    }
-  })
-};
-
-export default plugins;
-```
-
 Here's how you might use this API:
 
 ```javascript
-// my-phantomaton-app.js
+import conversations from 'phantomaton-conversations';
 import plugins from 'phantomaton-plugins';
 
-const app = plugins.create({ /* global config */ }, (container) => {
-  container.register(
-    plugins.composite('conversations')({
-      /* conversations config */
-    }, (config) => ({
-      user: ...,
-      assistant: ...,
-      conversation: ...
-    }))
-  );
+import start from './start.js';
+import user from './user.js';
 
-  container.register(
-    plugins.singleton('anthropic')({
-      /* anthropic config */
-    }, (config) => ({
-      converse: async (messages) => { ... }
-    }))
-  );
+export default plugins.create([
+  conversations.user(user),
+  plugins.start(plugins.use(conversations.conversation).to(start))
+]);
+```
 
-  container.register(
-    plugins.composite('cli')({
-      /* cli config */
-    }, (config) => ({
-      install: [...] 
-    }))
-  );
-});
+```
+import conversations from 'phantomaton-conversations';
+import plugins from 'phantomaton-plugins';
+import system from 'phantomaton-system';
+
+import assistant from './assistant.js';
+import claude from './claude.js';
+
+export default plugins.create(claude, instance => [
+  conversations.assistant(
+    plugins.use(system.prompt).to(prompt => assistant(instance, prompt))
+  ),
+  plugins.start(plugins.use(conversations.conversation).to(start))
+]);
+```
+
+```
+import plugins from 'phantomaton-plugins';
+
+import conversation from './conversation.js';
+
+export default plugins.create({
+  user: plugins.composite,
+  assistant: plugins.composite,
+  conversation: plugins.decorable(plugins.singleton)
+}, plugin => [
+  plugin.conversation(plugins.use(user, assitant).to(
+    (user, assitant) => turns => plugin.conversation(user, assistant, turns)
+  ))
+]);
 ```
 
 The key points are:
 
-1. `plugins.create` is the main entry point, taking a global config object and a setup function that registers plugins.
+1. `plugins.create` is the main entry point, returning a function which takes a global configuration object and returns an installable plugin.
 2. `plugins.composite` and `plugins.singleton` are used to define extension points, which are registered with the container.
 3. The setup function for each plugin receives a local config object and returns the plugin implementation, which is then registered with the container.
 4. No need to manually specify plugin names - they are derived from the extension point names.
