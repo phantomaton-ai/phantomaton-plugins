@@ -13,6 +13,6 @@ class Definition {
   }
 }
 
-const define = hieroglyph => new Definition(hieroglyph);
+const define = extension => new Definition(extension);
 
 export default define;
