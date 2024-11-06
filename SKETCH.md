@@ -19,8 +19,8 @@ import start from './start.js';
 import user from './user.js';
 
 export default plugins.create([
-  conversations.user(user),
-  plugins.start(plugins.use(conversations.conversation).to(start))
+  conversations.user.as(user),
+  plugins.start.with(conversations.conversation).as(start)
 ]);
 ```
 
@@ -33,10 +33,9 @@ import assistant from './assistant.js';
 import claude from './claude.js';
 
 export default plugins.create(claude, instance => [
-  conversations.assistant(
-    plugins.use(system.prompt).to(prompt => assistant(instance, prompt))
-  ),
-  plugins.start(plugins.use(conversations.conversation).to(start))
+  conversations.assistant.with(system.prompt).as(
+    prompt => assistant(instance, prompt)
+  )
 ]);
 ```
 
@@ -50,7 +49,7 @@ export default plugins.create({
   assistant: plugins.composite,
   conversation: plugins.decorable(plugins.singleton)
 }, plugin => [
-  plugin.conversation(plugins.use(user, assitant).to(
+  plugin.conversation.with(user, assitant).as(
     (user, assitant) => turns => plugin.conversation(user, assistant, turns)
   ))
 ]);
