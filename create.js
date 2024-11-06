@@ -1,3 +1,5 @@
+import expose from './expose.js';
+
 const create = (a, b, c) => {
   const extensions = expose(a);
   const instantiate = configuration => b(configuration);
