@@ -1,13 +1,9 @@
 import expose from './expose.js';
 
-const create = (a, b, c) => {
+const create = (components, instantiate, install) => {
   const extensions = expose(a);
-  const instantiate = configuration => b(configuration);
-  const install = plugin => c(plugin);
-  const plugin = { extensions: expose(a) };
   return configuration => {
-    plugin.configuration = configuration;
-    plugin.instance = instantiate(configuration);
-    return { install: install(plugin) };
+    const instance = instantiate(configuration);
+    return { install: install({ configuration, extensions, instance }) };
   };
 };
