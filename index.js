@@ -1,12 +1,15 @@
 import create from './create.js';
 import define from './define.js';
-import { composite, singleton, decorable, aggregate } from './types.js';
+import compose from './compose.js';
+import single from './single.js';
+import decorate from './decorate.js';
+import merge from './merge.js';
 
 export default {
   create,
   define,
-  composite,
-  singleton,
-  decorable,
-  aggregate
+  compose,
+  single,
+  decorate,
+  merge
 };
