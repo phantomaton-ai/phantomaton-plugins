@@ -99,9 +99,9 @@ const main = plugins.create([
 ## Dependencies 🔗
 
 Built on top of:
-- `sigilium` for extension point patterns
-- `hierophant` for dependency injection
-- `priestess` for application lifecycle
+- [`sigilium`](https://github.com/phantomaton-ai/sigilium) for extension point patterns
+- [`hierophant`](https://github.com/phantomaton-ai/hierophant) for dependency injection
+- [`priestess`](https://github.com/phantomaton-ai/priestess) for application lifecycle
 
 ## Contributing 🦄
 
