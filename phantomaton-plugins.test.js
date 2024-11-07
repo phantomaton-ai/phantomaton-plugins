@@ -27,7 +27,8 @@ describe('phantomaton-plugins', () => {
       b().install.forEach(component => container.install(component));
       c({ baz: 'baz' }).install.forEach(component => container.install(component));
 
-      expect(container.resolve(a.bar.resolve)).to.equal('Okay BAZ');
+      expect(container.resolve(a.foo.resolve)).to.deep.equal(['BAZ']);
+      expect(container.resolve(a.bar.resolve)).to.deep.equal(['Okay BAZ']);
     });
   });
 });

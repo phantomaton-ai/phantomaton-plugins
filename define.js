@@ -5,13 +5,15 @@ class Definition {
   }
 
   with(...dependencies) {
-    return new Definition(this.extension, [...this.dependencies, dependencies]);
+    return new Definition(this.extension, [...this.dependencies, ...dependencies]);
   }
 
   as(value) {
     return this.extension.provider(
-      this.dependencies,
-      (...arrays) => value(...arrays.map(array => array[0]))
+      this.dependencies.map(({ resolve }) => resolve),
+      this.dependencies.length < 1 ?
+        () => value :
+        (...arrays) => value(...arrays.map(([head]) => head))
     );
   }
 }
