@@ -7,13 +7,13 @@ const create = (...args) => {
   let install = () => [];
 
   // Parse arguments based on their type
-  args.forEach(arg => {
+  args.forEach((arg, index) => {
     if (typeof arg === 'object' && !Array.isArray(arg)) {
       components = arg;
     } else if (Array.isArray(arg)) {
       install = () => arg;
     } else if (typeof arg === 'function') {
-      if (install === () => []) {
+      if (index === args.length - 1) {
         install = arg;
       } else {
         instantiate = arg;

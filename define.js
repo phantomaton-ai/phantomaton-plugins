@@ -9,7 +9,10 @@ class Definition {
   }
 
   as(value) {
-    return this.extension.provider(this.dependencies, value);
+    return this.extension.provider(
+      this.dependencies,
+      (...arrays) => value(...arrays.map(array => array[0]))
+    );
   }
 }
 
