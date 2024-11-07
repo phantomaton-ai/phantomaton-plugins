@@ -37,7 +37,7 @@ describe('phantomaton-plugins', () => {
       });
       
       const io = create([
-        define(plugins.input).as(() => 'hello'),
+        define(plugins.input).as('hello'),
         define(app.message).with(plugins.input).as(input => input.toUpperCase())
       ]);
 
@@ -49,6 +49,9 @@ describe('phantomaton-plugins', () => {
       app().install.forEach(component => container.install(component));
       io().install.forEach(component => container.install(component));
       main().install.forEach(component => container.install(component));
+
+      container.install(plugins.input.resolver());
+      container.install(plugins.start.resolver());
 
       const [start] = container.resolve(plugins.start.resolve);
       expect(start()).to.equal('HELLO');
