@@ -30,5 +30,28 @@ describe('phantomaton-plugins', () => {
       expect(container.resolve(a.foo.resolve)).to.deep.equal(['BAZ']);
       expect(container.resolve(a.bar.resolve)).to.deep.equal(['Okay BAZ']);
     });
+
+    it('supports application entry points with input handling', () => {
+      const app = create({
+        message: plugins.singleton
+      });
+      
+      const io = create([
+        define(plugins.input).as(() => 'hello'),
+        define(app.message).with(plugins.input).as(input => input.toUpperCase())
+      ]);
+
+      const main = create([
+        define(plugins.start).with(app.message).as(message => () => message)
+      ]);
+
+      const container = hierophant();
+      app().install.forEach(component => container.install(component));
+      io().install.forEach(component => container.install(component));
+      main().install.forEach(component => container.install(component));
+
+      const [start] = container.resolve(plugins.start.resolve);
+      expect(start()).to.equal('HELLO');
+    });
   });
 });
