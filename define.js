@@ -5,7 +5,7 @@ class Definition {
   }
 
   with(...dependencies) {
-    return new Definition(this.hieroglyph, [...this.dependencies, dependencies]);
+    return new Definition(this.extension, [...this.dependencies, dependencies]);
   }
 
   as(value) {
