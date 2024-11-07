@@ -1,6 +1,6 @@
 # Phantomaton Plugins 🔌
 
-A simplified and more expressive way to create plugins for the Phantomaton AI framework.
+A simplified and more expressive way to create plugins for the [Phantomaton](https://github.com/phantomaton-ai/phantomaton) AI framework.
 
 ## Installation 📦
 
@@ -102,6 +102,10 @@ Built on top of:
 - `sigilium` for extension point patterns
 - `hierophant` for dependency injection
 - `priestess` for application lifecycle
+
+## Contributing 🦄
+
+We welcome contributions to the Phantomaton Plugins project! If you have any ideas, bug reports, or pull requests, please feel free to submit them on the [Phantomaton Plugins GitHub repository](https://github.com/phantomaton-ai/phantomaton-plugins).
 
 ## License 📜
 
