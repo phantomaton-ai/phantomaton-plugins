@@ -24,6 +24,6 @@
   },
   "dependencies": {
     "priestess": "^1.0.1",
-    "sigilium": "^1.0.1"
+    "sigilium": "^1.1.0"
   }
 }
