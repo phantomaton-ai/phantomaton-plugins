@@ -33,7 +33,7 @@ describe('phantomaton-plugins', () => {
 
     it('supports application entry points with input handling', () => {
       const app = create({
-        message: plugins.singleton
+        message: plugins.optional
       });
       
       const io = create([
