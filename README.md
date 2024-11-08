@@ -36,7 +36,8 @@ The `plugins.create` function supports several argument patterns for flexibility
 // First argument can be an object mapping names to extension point types
 const api = plugins.create({
   single: plugins.singleton,
-  many: plugins.composite
+  many: plugins.composite,
+  maybe: plugins.optional
 });
 ```
 
