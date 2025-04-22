@@ -1,6 +1,6 @@
 {
   "name": "phantomaton-plugins",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "phantomaton-plugins.js",
   "scripts": {
     "all": "lovecraft -a",
