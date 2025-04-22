@@ -63,8 +63,8 @@ const plugin = plugins.create([
 Or as a function that receives context:
 ```javascript
 // Function receiving { configuration, extensions, instance }
-const plugin = plugins.create(({ instance }) => [
-  plugins.define(other.extension).as(instance.value)
+const plugin = plugins.create(({ configuration }) => [
+  plugins.define(other.extension).as(configuration.value)
 ]);
 ```
 
