@@ -4,7 +4,7 @@ import hierophant from 'hierophant';
 
 import plugins from './phantomaton-plugins.js';
 
-const { create, define } = plugins;
+const { create, decorate, define } = plugins;
 
 describe('phantomaton-plugins', () => {
   describe('create', () => {
@@ -29,6 +29,24 @@ describe('phantomaton-plugins', () => {
 
       expect(container.resolve(a.foo.resolve)).to.deep.equal(['BAZ']);
       expect(container.resolve(a.bar.resolve)).to.deep.equal(['Okay BAZ']);
+    });
+
+    it('supports decoration', () => {
+      const base = create({ greet: plugins.composite });
+      const impl = create([
+        define(base.greet).as(() => 'Hello')
+      ]);
+      const deco = create([
+        decorate(base.greet).as(fn => () => `${fn()}, there`)
+      ]);
+
+      const container = hierophant();
+      base().install.forEach(component => container.install(component));
+      impl().install.forEach(component => container.install(component));
+      deco().install.forEach(component => container.install(component));
+
+      const [greet] = container.resolve(base.greet.resolve);
+      expect(greet()).to.equal('Hello, there');
     });
 
     it('supports application entry points with input handling', () => {
